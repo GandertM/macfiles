@@ -104,11 +104,18 @@ update() {
      
   draw_line "blue"
   
+  print_colored_text "green" "AUTOREMOVE"
+  
+  # autoremove
+  brew autoremove
+  
+  draw_line "blue"
+  
   print_colored_text "green" "CACHE CLEANUP"
   
   # cache cleanup
-  brew cleanup
-  
+  brew cleanup --prune=30
+
   draw_line "blue"
   
   print_colored_text "green" "REPORT ISSUES"
