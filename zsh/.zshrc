@@ -141,8 +141,8 @@ fi
 
 # Source aliases and functions for every new prompt or after every command
 precmd() {
-    [[ -f .zsh_aliases ]] && source .zsh_aliases
-    [[ -f .zsh_functions ]] && source .zsh_functions
+    [[ -f "$HOME/.zsh_aliases" ]] && source .zsh_aliases
+    [[ -f "$HOME/.zsh_functions" ]] && source .zsh_functions
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~ End Configuration ~~~~~~~~~~~~~~~~~~~~~~~~~~
