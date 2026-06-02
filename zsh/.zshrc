@@ -93,7 +93,7 @@ bindkey '^[r' redo                    # redo with alt+r
 # ~~~~~~~~~~~~~~~~~~~~~~ History Configuration ~~~~~~~~~~~~~~~~~~~~~~~~~~
  
 HISTSIZE=25000
-HISTFILE=".zsh_history"
+HISTFILE="$HOME/.zsh_history"
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
 setopt appendhistory
