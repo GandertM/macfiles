@@ -8,6 +8,7 @@ brew "git"
 brew "midnight-commander"
 brew "ollama", restart_service: :changed
 brew "starship"
+brew "stow"
 brew "zoxide"
 brew "zsh"
 brew "borgbackup/tap/borgbackup-fuse"
