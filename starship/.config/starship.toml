@@ -1,0 +1,128 @@
+# Get editor completions base3 on the config schema
+"$schema" = "https://starship.rs/config-schema.json"
+
+# Customizing the prompt (and placing desired modules at desired position and sequence):
+# ╭╴ # \u256D\u2574
+# ╰╴ # \u2570\u2574
+format = """
+[╭](fg:base0)[](fg:base0)$username[](fg:base0 bg:base1)$hostname[](fg:base1 bg:base2)$directory\
+[](fg:base2 bg:base3)$git_branch[](fg:base3 bg:base4)$git_status[](fg:base4)\
+$fill\
+[](fg:base4)$sudo\
+[](fg:base3 bg:base4)\
+$cmd_duration\
+[](fg:base2 bg:base3)\
+$jobs\
+[](fg:base1 bg:base2)\
+$shell\
+[](fg:base0 bg:base1)\
+$time\
+[](fg:base0)\
+$line_break\
+[╰─](fg:base0)$status\
+$character"""
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+# color palette
+palette = "gandert"
+
+[character]
+disabled = false
+success_symbol = "[❯](green) "
+error_symbol = "[🔥](bold red) "
+#error_symbol = "[🔥🧨×📛𝕏𝔵⦻✗⊗❌](bold red) "
+format = "$symbol"
+
+[cmd_duration]
+min_time = 2500
+show_notifications = false
+format = "[  $duration ]($style)"
+style = "fg:text0 bg:base3"
+
+[directory]
+truncate_to_repo = false
+truncation_length = 3
+truncation_symbol = "…/"
+home_symbol = "~"
+read_only = "󰈈 "
+#read_only_style = "bg:base1"
+format = "[ $path $read_only]($style)"
+style = "fg:text0 bg:base2"
+
+[fill]
+#symbol = " "
+symbol = "─"
+style = "fg:base0"
+
+[git_branch]
+symbol = " "
+truncation_length = 6
+truncation_symbol = ""
+format = "[ $symbol$branch(:$remote_branch) ]($style)"
+style = "fg:text0 bg:base3"
+
+[git_status]
+#up_to_date = "✓"
+format = "[$all_status$ahead_behind]($style)"
+style = "fg:text0 bg:base4"
+
+[hostname]
+disabled = false
+ssh_only = true
+style = "fg:text0 bg:base1"
+format = "[$ssh_symbol @ $hostname]($style)"
+
+[jobs]
+symbol = "󰣖"
+#number_threshold = 4
+#symbol_threshold = 0
+#symbol_threshold = 1
+format = "[$symbol $number ]($style) "
+style = "fg:text0 bg:base2"
+
+[line_break]
+disabled = false
+
+[shell]
+disabled = false
+bash_indicator = "bsh"
+zsh_indicator = "zsh"
+unknown_indicator = "mystery shell"
+format = "[ $indicator ]($style)"
+style = "fg:text0 bg:base1"
+
+[sudo]
+disabled = false
+symbol = "󰌋"
+format = "[ $symbol ]($style)"
+style = "fg:text0 bg:base4"
+
+[time]
+disabled = false
+time_format = "%T"
+format = "[ $time]($style)"
+style = "fg:text0 bg:base0"
+time_range = "08:00:00-16:30:00"
+
+[username]
+disabled = false
+show_always = true
+format = "[$user]($style)"
+style_user = "fg:text0 bg:base0"
+style_root = "fg:red bg:base0"
+
+[palettes.gandert]
+base0 = "#45475a"
+base1 = "#57596a"
+base2 = "#6a6b7a"
+base3 = "#7c7e8b"
+base4 = "#8f909c"
+#base5 = "#a2a3ac" # not used
+#base6 = "#b4b5bd" # not used
+#base7 = "#c7c7cd" # not used
+#base8 = "#d9dade" # not used
+#base9 = "#ececee" # not used
+#basek = "#ffffff" # not used = white
+text0 = "#ececee"

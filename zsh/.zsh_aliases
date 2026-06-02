@@ -1,0 +1,182 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ Personal Alias Configuration ~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ Tools ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ SHELL handling ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias s="exec zsh"
+alias c="clear"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ General Tools ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias cp="cp -i"
+alias mv="mv -i"
+alias rm="trash -v"
+alias ed="$EDITOR"
+alias mkdir="mkdir -p"
+alias ps="ps auxf"
+alias ping="ping -c 5"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ Monitoring Tools ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias df="df -h -x tmpfs -x squashfs -x devtmpfs -x efivarfs"
+alias speedtest="curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -"
+alias mem5="ps auxf | sort -nr -k 4 | head -5"
+alias cpu5="ps auxf | sort -nr -k 3 | head -5"
+#alias ipreset="NIC=$(netstat -r | awk '/default/ {print $NF}' | sort -u | grep -v '^w'); sudo dhclient -r -v $NIC && sudo dhclient -v $NIC"
+#alias ipreset="NIC=$(ip link show | grep 'state UP' | awk '{print substr($2,1,length($2)-1)}' | sort -u); sudo dhclient -r -v $NIC && sudo dhclient -v $NIC"
+alias ipext="curl icanhazip.com"
+alias openports='sudo ss -tulpn'
+alias free="free -m" # show sizes in MB
+alias netdev="nmcli device status"
+alias netdns="nmcli dev show | grep DNS"
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ Aliases per command ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ bat ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias cat="/usr/bin/bat --color always"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ chmod ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias mx="chmod a+x"
+alias 000="chmod -R 000"
+alias 644="chmod -R 644"
+alias 666="chmod -R 666"
+alias 755="chmod -R 755"
+alias 777="chmod -R 777"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ eza ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+if command -v eza >/dev/null 2>&1; then
+    # base with eza
+    alias l="eza --icons --group-directories-first --group --color=always --time-style long-iso"
+    #alias ll="eza -hl --icons --group-directories-first --group --color=always --time-style long-iso"
+    alias ll="l -hl"
+
+    # all entries
+    alias la="ll -a"
+    alias las="la --total-size --sort=size"
+    alias lam="la --sort=modified"
+    alias lac="la --sort=created"
+
+    # only files
+    alias lf="ll -f"
+    alias lfs="lf --total-size --sort=size"
+    alias lfm="lf --sort=modified"
+    alias lfc="lf --sort=created"
+
+    # only directories
+    alias ld="ll -D"
+    alias lds="ld --total-size --sort=size"
+    alias ldm="ld --sort=modified"
+    alias ldc="ld --sort=created"
+
+    # only hidden
+    alias lh="ll -dl .*"
+    alias lhs="lh --total-size --sort=size"
+    alias lhm="lh --sort=modified"
+    alias lhc="lh --sort=created"
+
+    # only executables
+    alias lx="find . -maxdepth 1 -type f -executable -exec eza -hl --icons --group-directories-first --group --color=always {} +"
+    alias lxs="find . -maxdepth 1 -type f -executable -exec eza -hl --icons --group-directories-first --group --color=always --sort=size {} +"
+    alias lxm="find . -maxdepth 1 -type f -executable -exec eza -hl --icons --group-directories-first --group --color=always --sort=modified {} +"
+    alias lxc="find . -maxdepth 1 -type f -executable -exec eza -hl --icons --group-directories-first --group --color=always --sort=created {} +"
+
+    # view tree
+    alias lt="eza -lahT --icons --color=always --group-directories-first --group"
+
+    alias lts="lt --total-size --sort=size"     # max depth 1
+    alias ltm="lt --sort=modified"
+    alias ltc="lt --sort=created"
+
+    alias lt2="lt --level=2"                    # max depth 2
+    alias lts2="lt2 --total-size --sort=size"
+    alias ltm2="lt2 --sort=modified"
+    alias ltc2="lt2 --sort=created"
+
+    alias lt3="lt --level=3"                    # max depth 3
+    alias lts3="lt3 --total-size --sort=size"
+    alias ltm3="lt3 --sort=modified"
+    alias ltc3="lt3 --sort=created"
+else
+    # base with ls
+    alias l="ls --group-directories-first --group --color=always --time-style=long-iso"
+    alias ll="l -lh"
+
+    # all entries
+    alias la="ll -a"
+
+    # only files
+    #alias lf="find . -maxdepth 1 -type f ! -name ".*" -exec ls -lh --color=always --time-style=long-iso {} +"
+    alias lf="find . -maxdepth 1 -type f ! -name ".*" -exec ll {} +"
+
+    # only directories
+    #alias ld="find . -maxdepth 1 -type d ! -name ".*" -exec ls -lhd --color=always --time-style=long-iso {} +"
+    alias ld="find . -maxdepth 1 -type d ! -name ".*" -exec ll -d {} +"
+
+    # only hidden
+    alias lh="(find . -maxdepth 1 -type d -name ".*" -exec ls -ld --color=always --time-style=long-iso {} +; \
+               find . -maxdepth 1 -type f -name ".*" -exec ls -lh --color=always --time-style=long-iso {} +)"
+fi
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ fresh-editor ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias fe="fresh"                  # Start the fresh-editor
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ find ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias fn="find ./ -name "         # Search by file name
+#alias fc="find ./ | grep "        # Search by file content
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ git ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias ga="git add"
+alias gcm='git commit -m "$1"'
+alias gp="git push -u origin main"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ grep ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Colorize grep output (good for log files)
+alias grep="grep --color=auto"
+alias egrep="egrep --color=auto"
+alias fgrep="fgrep --color=auto"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ history ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias h="history | grep -i "
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ journalctl ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias jctl="sudo journalctl -xb"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ ls ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias ls="ls -h --color=always --group-directories-first --group --time-style=long-iso"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ mc ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias mcnc="mc --nocolor"      # required else theming goes off
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ ps ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+alias psa="ps auxf"
+alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
+alias psmem="ps auxf | sort -nr -k 4"
+alias pscpu="ps auxf | sort -nr -k 3"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ zypper ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#alias zs="zypper search"
+#alias zsr="zypper search -s --match-exact"
+#alias zsp="zypper search-packages"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ End aliases ~~~~~~~~~~~~~~~~~~~~~~~~~~

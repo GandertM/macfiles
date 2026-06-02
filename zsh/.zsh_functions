@@ -1,0 +1,140 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ Personal Function Configuration ~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ Colours Configuration ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Function to determine width of the terminal
+get_terminal_width() {
+  tput cols
+}
+
+# Function to get the colorcode entered
+get_color_code() {
+  case $1 in
+    black)        echo "30" ;;
+    gray)         echo "90" ;;
+    red)          echo "31" ;;
+    green)        echo "32" ;;
+    yellow)       echo "33" ;;
+    blue)         echo "34" ;;
+    magenta)      echo "35" ;;
+    cyan)         echo "36" ;;
+    white)        echo "37" ;;
+    bright_black) echo "90" ;;
+    bright_red)   echo "91" ;;
+    bright_green) echo "92" ;;
+    bright_yellow) echo "93" ;;
+    bright_blue)  echo "94" ;;
+    bright_magenta) echo "95" ;;
+    bright_cyan)  echo "96" ;;
+    bright_white) echo "97" ;;
+    *) 
+      echo "Invalid color!" 
+      return 1
+      ;;
+  esac
+}
+
+# Function to draw a horizontal line across the terminal
+draw_line() {
+  local color=$1
+  local color_code
+  color_code=$(get_color_code "$color")
+  if [ -z "$color_code" ]; then
+    return 1  # Quit when color is invalid
+  fi
+
+  local width
+  width=$(get_terminal_width)  # Get the terminal width
+
+  # Draw a horizontal line starting with skipped a line
+  printf "\n\033[${color_code}m"
+  for ((i=0; i<width; i++)); do
+    echo -n "─"
+  done
+  printf "\033[0m\n"  # Reset color
+}
+
+# Function to print the text and skip a line
+print_colored_text() {
+  local color=$1
+  local text=$2
+  local color_code
+  color_code=$(get_color_code "$color")
+  if [ -z "$color_code" ]; then
+    return 1  # Quit when color is invalid
+  fi
+
+  # Print the text and rest the color
+  printf "\033[${color_code}m${text}\033[0m\n\n"
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ Update ~~~~~~~~~~~~~~~~~~~~~~~~
+
+update() {
+
+  # define timestamp file
+  STAMP_FILE="$HOME/.weekly.ts"
+  
+  # use interval of 1 week
+  INTERVAL="604800"   
+
+  # if timestamp file does not exist, create it
+  [[ ! -f $STAMP_FILE ]] && touch $STAMP_FILE
+
+  # determine times and delta
+  STAMP="$(date -r $STAMP_FILE +%s 2>/dev/null)"
+  NOW="$(date +%s 2>/dev/null)"
+  DELTA=$(($NOW-$STAMP))
+
+  draw_line "blue"
+
+  print_colored_text "green" "UPDATE BREW"
+
+  # update homebrew
+  brew update
+    
+  draw_line "blue"
+
+  print_colored_text "green" "UPDATE PACKAGES"
+
+  # update packages
+  brew upgrade
+     
+  draw_line "blue"
+  
+  print_colored_text "green" "CACHE CLEANUP"
+  
+  # cache cleanup
+  brew cleanup
+  
+  draw_line "blue"
+  
+  print_colored_text "green" "REPORT ISSUES"
+  
+  # report issues
+  brew doctor
+  
+  draw_line "blue"
+  
+  # if time has passed, execute
+  if [[ $DELTA -ge $INTERVAL ]]; then
+    
+    print_colored_text "green" "UPDATE ZINIT"
+
+    zinit self-update && zinit update
+
+    draw_line "blue"
+
+  fi
+        
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ Path ~~~~~~~~~~~~~~~~~~~~~~~~
+
+path() {
+  echo "$PATH" | tr ":" "\n" | nl
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ End functions ~~~~~~~~~~~~~~~~~~~~~~~~~~ßœœ
