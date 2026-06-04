@@ -78,10 +78,10 @@ update() {
   STAMP_FILE="$HOME/.weekly.ts"
   
   # use interval of 1 week
-  INTERVAL="604800"   
-
+  INTERVAL="604800"
+  
   # if timestamp file does not exist, create it
-  [[ ! -f $STAMP_FILE ]] && touch $STAMP_FILE
+  [[ ! -f "$STAMP_FILE" ]] && touch "$STAMP_FILE"
 
   # determine times and delta
   STAMP="$(date -r $STAMP_FILE +%s 2>/dev/null)"
@@ -124,9 +124,9 @@ update() {
   brew doctor
   
   draw_line "blue"
-  
+
   # if time has passed, execute
-  if [[ $DELTA -ge $INTERVAL ]]; then
+  if [[ "$DELTA" -ge "$INTERVAL" ]]; then
     
     print_colored_text "green" "UPDATE ZINIT"
 
@@ -134,8 +134,10 @@ update() {
 
     draw_line "blue"
 
+    touch "$STAMP_FILE"
+
   fi
-        
+
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~ Path ~~~~~~~~~~~~~~~~~~~~~~~~
