@@ -91,32 +91,48 @@ bindkey '^[u' undo                    # undo with alt+u
 bindkey '^[r' redo                    # redo with alt+r
 
 # ~~~~~~~~~~~~~~~~~~~~~~ History Configuration ~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-HISTSIZE=25000
+
+# History file location
 HISTFILE="$HOME/.zsh_history"
-SAVEHIST=$HISTSIZE
-HISTDUP=erase
 
-# If this is set, zsh sessions will append their history list to the history file, rather than replace it. 
-setopt append_history
+# History file size
+SAVEHIST=25000
+HISTSIZE=50000
 
-# This option both imports new commands from the history file, and also causes your typed commands to be appended to the history file.
-setopt share_history
-
-# Remove command lines from the history list when the first character on the line is a space, or when one of the expanded aliases contains a leading space. 
-setopt hist_ignore_space
-
-# If a new command line being added to the history list duplicates an older one, the older command is removed from the list (even if it is not the previous event).
-setopt hist_ignore_all_dups
-
-# When writing out the history file, older commands that duplicate newer ones are omitted.
-setopt hist_save_no_dups
+# setopt HIST_IGNORE_ALL_DUPS   # Remove older duplicate entries, keeping only the latest
 
 # Do not enter command lines into the history list if they are duplicates of the previous event.
-setopt hist_ignore_dups
+#setopt hist_ignore_dups
+setopt HIST_IGNORE_DUPS       # Prevent consecutive duplicate commands from being stored
 
 # When searching for history entries in the line editor, do not display duplicates of a line previously found, even if the duplicates are not contiguous.
-setopt hist_find_no_dups
+#setopt hist_find_no_dups
+setopt HIST_SAVE_NO_DUPS      # Don't write duplicate commands to history
+
+setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicate entries first when trimming history
+
+# Remove command lines from the history list when the first character on the line is a space, or when one of the expanded aliases contains a leading space. 
+#setopt hist_ignore_space
+setopt HIST_IGNORE_SPACE      # Don't save commands that start with a space
+
+setopt HIST_REDUCE_BLANKS     # Remove unnecessary whitespace from history entries
+
+setopt HIST_VERIFY            # Require confirmation before executing history commands
+
+# This option both imports new commands from the history file, and also causes your typed commands to be appended to the history file.
+#setopt share_history
+setopt SHARE_HISTORY          # Share history across multiple terminal sessions
+
+setopt INC_APPEND_HISTORY     # Immediately append new commands to history file
+
+# Prevent history file corruption (important for large history)
+setopt EXTENDED_HISTORY  # Save timestamps for each command
+
+# If this is set, zsh sessions will append their history list to the history file, rather than replace it. 
+#setopt append_history
+setopt APPEND_HISTORY    # Append history instead of overwriting it
+
+setopt HIST_NO_STORE     # Prevent 'history' command itself from being stored
 
 # ~~~~~~~~~~~~~~~~~~~~~~ Conmpletion Configuration ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
