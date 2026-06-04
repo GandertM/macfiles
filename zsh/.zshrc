@@ -96,12 +96,26 @@ HISTSIZE=25000
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
+
+# If this is set, zsh sessions will append their history list to the history file, rather than replace it. 
+setopt append_history
+
+# This option both imports new commands from the history file, and also causes your typed commands to be appended to the history file.
+setopt share_history
+
+# Remove command lines from the history list when the first character on the line is a space, or when one of the expanded aliases contains a leading space. 
 setopt hist_ignore_space
+
+# If a new command line being added to the history list duplicates an older one, the older command is removed from the list (even if it is not the previous event).
 setopt hist_ignore_all_dups
+
+# When writing out the history file, older commands that duplicate newer ones are omitted.
 setopt hist_save_no_dups
+
+# Do not enter command lines into the history list if they are duplicates of the previous event.
 setopt hist_ignore_dups
+
+# When searching for history entries in the line editor, do not display duplicates of a line previously found, even if the duplicates are not contiguous.
 setopt hist_find_no_dups
 
 # ~~~~~~~~~~~~~~~~~~~~~~ Conmpletion Configuration ~~~~~~~~~~~~~~~~~~~~~~~~~~
