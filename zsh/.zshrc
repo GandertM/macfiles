@@ -9,7 +9,7 @@ setopt extended_glob null_glob
 path_prepend() {
   local dir="$1"
   [[ -d "$dir" ]] || return 0     # skip if non-existing
-  path=("$dir" $path)
+  path=("$dir" "$path")
 }
 
 path_append() {
@@ -43,7 +43,7 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
 # Download Zinit, if it's not there yet
 if [[ ! -d "$ZINIT_HOME" ]]; then
-    mkdir -p "$(dirname $ZINIT_HOME)"
+    mkdir -p "$(dirname "$ZINIT_HOME")"
     git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
@@ -113,16 +113,19 @@ setopt HIST_NO_STORE            # Prevent 'history' command itself from being st
 
 # ~~~~~~~~~~~~~~~~~~~~~~ Conmpletion Configuration ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'              # autocompletion with both upper- and lowercase
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"             # autocompletion with colors (only for ls)
-zstyle ':completion:*' menu no                                      # disables default zsh completion / see plugin Aloxaf/fzf-tab
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'              	# autocompletion with both upper- and lowercase
+#zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"             	# autocompletion with colors (only for ls)
+zstyle ':completion:*:default' list-colors \
+  "di=1;36" "ln=35" "so=32" "pi=33" "ex=31" "bd=34;46" "cd=34;43" \
+  "su=30;41" "sg=30;46" "tw=30;42" "ow=30;43"                       	# mac version
+zstyle ':completion:*' menu no                                      	# disables default zsh completion / see plugin Aloxaf/fzf-tab
 
 if command -v eza >/dev/null 2>&1; then
-    zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --color=always --icons --git --group-directories-first "$realpath"'
-    zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --color=always --icons --git --group-directories-first "$realpath"'
+    zstyle ':fzf-tab:complete:cd:*' fzf-preview "eza --color=always --icons --git --group-directories-first $(realpath)"
+    zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview "eza --color=always --icons --git --group-directories-first $(realpath)"
 else
-    zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'  # fzf file browser
-    zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+    zstyle ':fzf-tab:complete:cd:*' fzf-preview "ls --color $(realpath)"  # fzf file browser
+    zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview "ls --color $(realpath)"
 fi
 
 # ~~~~~~~~~~~~~~~~~~~~~~ Sourcing Configuration ~~~~~~~~~~~~~~~~~~~~~~~~~~
