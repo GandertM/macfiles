@@ -134,6 +134,12 @@ update() {
 
     draw_line "blue"
 
+    print_colored_text "green" "UPDATE BREWFILE"
+
+    brew bundle dump --force
+
+    draw_line "blue"
+
     touch "$STAMP_FILE"
 
   fi
